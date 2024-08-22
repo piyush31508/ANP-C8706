@@ -4,7 +4,6 @@
 /**
  * 
  */
-module ANP {
+module Automated_Auction_System {
 	requires java.sql;
-	requires java.desktop;
 }

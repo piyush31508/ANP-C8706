@@ -4,7 +4,6 @@
 /**
  * 
  */
-module ANP {
+module Online_Banking {
 	requires java.sql;
-	requires java.desktop;
 }
