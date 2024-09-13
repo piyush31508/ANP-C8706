@@ -27,10 +27,6 @@ public class singleton  {
 	
 	private static singleton  singleton = null  ;
 	
-	
-	
-	
-
 	public static singleton getsingleton() {
 		if ( singleton  ==  null) {
 			
@@ -38,11 +34,7 @@ public class singleton  {
 			 
 		}
 		return singleton ;
-	}
-	
-	
-	// method to get connection from this singleton class 
-	
+	}	
 	
 	
 	public Connection getConnection() throws SQLException {
