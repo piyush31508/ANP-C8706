@@ -67,6 +67,71 @@ public class AuthorImp implements AuthorDao {
 
 	@Override
 	public List<Book> authorWorks(String name) {
+	    List<Book> listb = new ArrayList<>(); // To hold books by the author(s)
+	    List<Author> list = authorByName(name); // Get the list of authors matching the name
+	    
+	    if (list.isEmpty()) {
+	        System.out.println("No authors found with the name: " + name);
+	        return listb; // Return empty list if no authors found
+	    }
+
+	    em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+	    try {
+	        // Query to fetch books where the author's ID matches the found author IDs
+	        Query q = em.createQuery(
+	            "SELECT b FROM Book b WHERE b.author.id IN :authorIds", Book.class);
+
+	        // Extract the author IDs from the list of authors
+	        List<Long> authorIds = new ArrayList<>();
+	        for (Author author : list) {
+	            authorIds.add(author.getId());
+	        }
+
+	        q.setParameter("authorIds", authorIds); // Set the list of author IDs to the query
+	        listb = q.getResultList(); // Fetch the books for the matching authors
+
+	    } finally {
+	        em.close();
+	    }
+
+	    return listb;
+	}
+
+	public void allAuthor() {
+		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+	    try {
+	        // Query to fetch books where the author's name matches the provided name
+	        Query q = em.createQuery(
+	            "FROM Author", Author.class);
+	        List<Author> list = q.getResultList();
+	        for(Author auth:list)
+	        System.out.println(auth.getId()+" "+auth.getName()+" "+auth.getNationality());
+	       
+	    } finally {
+	        em.close();
+	    }
+
+	}
+	
+	public List<Author> authorByName(String name) {
+		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		 List<Author> list= new ArrayList<>();
+	    try {
+	        // Query to fetch books where the author's name matches the provided name
+	        Query q = em.createQuery(
+	            "FROM Author where name like :x", Author.class);
+	        q.setParameter("x", "%"+name.toLowerCase()+"%");
+	        list = q.getResultList();
+	       
+	    } finally {
+	        em.close();
+	    }
+	    return list;
+	}
+}
+
+
+/*public List<Book> authorWorks(String name) {
 		List<Book> list = new ArrayList<>();
 		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
@@ -80,5 +145,4 @@ public class AuthorImp implements AuthorDao {
 
 		return list;
 	}
-
-}
+There is author id in book table*/

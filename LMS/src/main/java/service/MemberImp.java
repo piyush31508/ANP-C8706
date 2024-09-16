@@ -41,6 +41,8 @@ public class MemberImp implements MemberDao {
 		// TODO Auto-generated method stub
 		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
 		try {
+	        em.getTransaction().begin();
+
 			Book b = em.find(Book.class, bookId);
 			Member m = em.find(Member.class, memberId);
 
@@ -52,6 +54,7 @@ public class MemberImp implements MemberDao {
 				throw new IllegalArgumentException("Member not found");
 			}
 
+			System.out.println(b.getBookStatus());
 			if ("Borrowed".equals(b.getBookStatus())) {
 				throw new IllegalStateException("Book is already borrowed");
 			}
@@ -62,17 +65,23 @@ public class MemberImp implements MemberDao {
 			l.setLoanDate(new Date());
 			l.setReturnDate(null);
 
-			b.setBookStatus("Borrowed");
 
+			b.setBookStatus("Borrowed");
+			
 			em.persist(l);
 
 			em.merge(b);
+			
+	        em.getTransaction().commit();
+
 			
 			System.out.println("The book is given to "+m.getName());
 
 		} catch (Exception e) {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
+		        System.err.println("An error occurred while borrowing the book: " + e.getMessage());
+
 			}
 		} finally {
 			em.close();
@@ -123,6 +132,7 @@ public class MemberImp implements MemberDao {
 				em.merge(l);
 				em.merge(b);
 				em.getTransaction().commit();
+				System.out.println("The book have been returned, id of the book is:"+b.getId()+" by "+l.getMember().getName());
 			} else {
 				System.out.println("Pay next time");
 				return;

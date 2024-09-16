@@ -7,7 +7,11 @@
 
 	<persistence-unit name="Lms">
 
-		<class>com.dto.Student</class>
+		<class>model.Author</class>
+		<class>model.Loan</class>
+		<class>model.Librarian</class>
+		<class>model.Book</class>
+		<class>model.Member</class>
 
 		<properties>
 		

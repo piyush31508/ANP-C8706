@@ -5,7 +5,7 @@ import javax.persistence.Persistence;
 
 public class HibernateUtil {
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Lml");
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Lms");
 
     public static EntityManagerFactory getEntityManagerFactory() {
         return emf;

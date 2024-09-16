@@ -20,6 +20,7 @@ public class BookImp implements BookDao {
 		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
 		try {
+			 System.out.println("Saving book: " + book);
 			em.getTransaction().begin();
 			em.persist(book);
 			em.getTransaction().commit();

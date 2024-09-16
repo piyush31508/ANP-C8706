@@ -18,9 +18,8 @@ public class Librarian {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Librarian(long id, String name, String password) {
+	public Librarian( String name, String password) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.password = password;
 	}
